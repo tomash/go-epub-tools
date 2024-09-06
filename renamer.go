@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
-	
+
 	//"io"
 	"os"
 	"regexp"
+
 	//"strings"
 	"path/filepath"
 
@@ -54,11 +55,11 @@ func to_ascii_brutal(s string) string {
 
 func main() {
 	pathname := os.Args[1]
-	// fmt.Printf("pathname: %v\n", pathname)	
+	// fmt.Printf("pathname: %v\n", pathname)
 
 	rc, err := epub.OpenReader(pathname)
 	check(err)
-	defer rc.Close()
+	// defer rc.Close()
 
 	book := rc.Rootfiles[0]
 
@@ -79,12 +80,14 @@ func main() {
 
 	//fmt.Printf("to_ascii_brutal(zażółć gęślą jaźń): %v\n", to_ascii_brutal("zażółć gęślą jaźń"))
 
+	rc.Close()
+
 	title_latin1 := to_ascii_brutal(book.Title)
 	author_latin1 := to_ascii_brutal(book.Creator)
 	new_title := fmt.Sprintf("%v - %v", title_latin1, author_latin1)
 	new_filename := fmt.Sprintf("%v.epub", new_title)
 
-	if(filepath.Base(pathname) != new_filename) {
+	if filepath.Base(pathname) != new_filename {
 		// renaming time!
 		fmt.Printf("renaming to: %v\n", new_filename)
 		new_path := filepath.Join(filepath.Dir(pathname), new_filename)
