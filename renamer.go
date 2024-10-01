@@ -50,6 +50,9 @@ func to_ascii_brutal(s string) string {
 	s = regexp.MustCompile("[ŹŻ]").ReplaceAllString(s, "Z")
 	s = regexp.MustCompile("[źż]").ReplaceAllString(s, "z")
 
+	s = regexp.MustCompile("[&]").ReplaceAllString(s, "and")
+	s = regexp.MustCompile("[:]").ReplaceAllString(s, ".")
+
 	return s
 }
 
